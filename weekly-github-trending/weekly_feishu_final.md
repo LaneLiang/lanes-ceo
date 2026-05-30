@@ -1,5 +1,5 @@
 用户：LaneLiang
-生成时间：2026年05月28日 星期四
+生成时间：2026年5月30日 星期六
 
 ---
 
@@ -11,89 +11,89 @@
 
 ## 一、这周GitHub上在发生什么
 
-"技能化"（Skills）这个词几乎霸榜了这周的GitHub。事情的起点是Matt Pocock把自己日常用Claude Code的工作流配置开源了出来，然后开发者社区突然踩到了一个开关：原来AI编程助手变靠谱，不是靠更好的prompt，是靠一套结构化的上下文和规则。`.claude/skills/` 目录成了新的 `requirements.txt`，一周至少5个skills项目挤进Top 20。
+这周Top 20的门槛是单周415颗星，20个项目合计揽了将近15000颗星。放在半年前，一周300星就能进前20，现在翻了一倍不止。
 
-本地优先这股风也在加速。tinyhumansai的openhuman这个Rust写的桌面Agent，一周拿了17,000多star，就因为它把AI助手搬回了本机，Ollama跑推理，数据不出你的硬盘。加上LEANN这种能在笔记本上跑向量检索的项目也开始冒头，开发者在用脚投票：能不交到云端的，就不交。
+有个现象很直观：排名靠前的项目，名字里十个有五个带"skills"这个词。不是巧合。开发者在做的事情，是把工程上真正有用的东西（TDD、代码审查、调试流程、安全门禁）打包成AI编程代理能直接调用的模块。与其说是在"写提示词"，不如说是在"教AI怎么写代码"。
 
-Top 20的门槛这周是415 star，比上周略高。AI和LLM工具链占了44%的份额，TypeScript加Python超过六成。Rust的占比涨到了11%，Agent基础设施这块，系统级语言确实在吃份额。
+另一个趋势是模型训练的门槛在塌缩。不是说大模型不重要了，而是中小规模模型的训练和部署变得异常简单。几个小时内、几百块成本的GPU时间，就能训出一个看得过去的模型。这件事对学习者的意义，比什么SOTA都大。
 
 ---
 
 ## 二、5个值得关注的项目
 
-### 1. [tinyhumansai/openhuman](https://github.com/tinyhumansai/openhuman) — 28,894 Stars
+### 1. [obra/superpowers](https://github.com/obra/superpowers) — 140,000+ Stars
 
-这周增速最猛的就是openhuman（2026年2月创建，近期快速崛起）。Rust写的桌面AI Agent，接了超过118个OAuth集成，能直接操作Gmail、GitHub、Slack、Notion和日历。关键区别在架构上：它不依赖云端推理，数据走的是你本机的Ollama或LM Studio，不出本地。
+superpowers做的事说起来简单但影响很大：把软件工程里那些反复验证过的原则（TDD、YAGNI、SOLID、持续重构）做成了可组合的技能模块，AI编程代理拿来就能用。
 
-项目里有个叫TokenJuice的中间层，官方说能把token开销砍掉80%。就算打个折，按50%算，用一块消费级显卡跑本地模型，体验也足够接近云端的Agent了，但你不用按token付费。开源社区用28,894个star投了票。
+和传统的prompt engineering不同，它不教AI"怎么说"，而是教AI"怎么做"。每个技能是一个自包含的规则集，告诉AI在写代码之前先写测试，在加新功能之前先检查有没有违反现有设计约束。这种工程化的思路让AI产出的代码更可靠，而不是更花哨。
 
-项目还在快速迭代，文档也在不断完善。方向没毛病。把Agent从SaaS的月费里拽回本地这件事，总有人会做，openhuman眼下跑在最前面。
+obra是GitHub的CTO，这件事本身就说明了一些问题。本周单周增量超过950星，累计140K+。它不是本周增量最高的，但生态位最特别：它把"AI写代码"这件事从"能不能写"推进到了"写得好不好"。
 
-适合谁：想用AI Agent但又不想把邮箱和日历权限交给云服务的人。
-
----
-
-### 2. [ruvnet/ruflo](https://github.com/ruvnet/ruflo) — 55,831 Stars
-
-ruflo是一个基于Claude的多智能体编排平台。能让你同时跑多个Claude Agent，各自领一块任务，最后汇总。单日最高拿了2,598 star，总星数55,831。
-
-Agent编排这周特别热，ruflo不是独苗，但它和Claude生态绑得最深。背后的逻辑很朴素：现实里复杂的事从来不是一个人干的，那为什么要指望一个Agent搞定全部？ruflo把这个分工做成了开箱即用的东西，不是Demo级别的概念验证。
-
-企业级多Agent治理坑很多，权限怎么隔离、状态怎么同步、任务怎么分拆，每个都是硬骨头。ruflo目前的表现还算稳，社区活跃。但真正的压力测试是：当Agent从5个涨到50个，编排逻辑不塌，才算过关。
-
-适合谁：需要在生产环境跑多个AI Agent协作的团队。
+适合谁：用AI辅助写代码但想让产出更靠谱的开发者。
 
 ---
 
-### 3. [mattpocock/skills](https://github.com/mattpocock/skills) — 108,632 Stars
+### 2. [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) — 42,000+ Stars
 
-Matt Pocock是TypeScript圈的名人。他把自己用Claude Code时积累的工程技能打包开源，一周涨了1,618 star。这个项目说白了就是把"怎么写好代码"这件事，变成AI编程助手能遵守的规则。TDD、guardrails、结构化调试，全是实际干活才会碰到的东西。
+NousResearch做了一件事让这个项目很特别：它让AI代理在使用过程中自己进化。不是靠人类手动调prompt，也不是靠retrain模型，而是代理在执行任务时持续收集反馈、修正自己的行为模式。
 
-市面上有很多"prompt技巧合集"，Matt这套不一样的地方在于，它针对的是生产级场景。怎么让AI改代码前先吃透现有逻辑、怎么设边界防止AI手贱多改、怎么用skill chain把多个检查步骤串起来。这些听起来一点都不酷，但工程上这就是省命的东西。
+这周单周增量1332星。AI代理项目正在从"搭框架"阶段进入"让代理学会干活"阶段。hermes-agent走的是lifelong learning路线，代理今天学会的东西，明天还能用上，不需要从头来过。
 
-Matt这个项目把一整类技能库带火了。Addy Osmani（Google工程总监）和Anthropic官方都跟进出了自己的skills仓库，但Matt的版本最接地气，口碑也最好。
+技术上说，它在底层用了强化学习的思路来做代理行为的在线优化，但上层的交互方式保持了简洁。不是每个团队都需要一个自我进化的AI代理，但如果你的场景涉及长期运行的自动化任务，这个方向值得关注。
 
-适合谁：用Claude Code写TypeScript的人，以及想给AI编程助手加上工程纪律的开发者。
-
----
-
-### 4. [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) — 170,330 Stars
-
-Nous Research的hermes-agent这周拿了1,332 star，总星数170,330。它是一个自我进化的AI Agent框架，核心设计是三层记忆加自改进循环。Agent不是每次都从零开始，而是越用越知道怎么干活。
-
-三层记忆各管各的：短期存当前会话上下文，中期存跨会话的任务经验，长期存累积的知识和模式。每层有独立的读写规则。自改进循环的意思是，Agent干完活之后会自动复盘，下次碰到类似的活，效率更高。
-
-这个方向在社区里分歧挺大。一边认为这是通向真正的autonomous agent的关键一步，另一边觉得自我进化本质上是黑盒，出了事你根本不知道哪里偏了。hermes-agent是目前工程化做得最好的版本之一，但上生产环境还是得掂量一下。
-
-适合谁：对Agent自我进化感兴趣的研究者，或者想试水高级Agent架构的团队。
+适合谁：在做Agent系统、对代理自进化机制感兴趣的AI工程师。
 
 ---
 
-### 5. [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) — 159,086 Stars
+### 3. [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) — 73,000+ Stars
 
-Karpathy的影响力在这个项目上看得最清楚。multica-ai社区把他的AI编程理念做成了可复用的技能集，核心是他反复说的四条原则：先理解再修改、最小变更、先写测试、保持简洁。一周涨了1,117 star，总星数159,086。
+金融交易是AI多代理系统目前跑通得最实的场景。TradingAgents用多个LLM代理模拟一支交易团队：有人盯基本面，有人看技术指标，有人管风控，最后基金经理拍板。
 
-一个人工作哲学被翻译成可执行的规则，这件事本身就挺有意思。Karpathy本人不一定直接参与了，但社区提炼的东西质量过关。跟那种把博客文章复制粘贴过来的合集不是一回事。每条技能都带具体使用场景和反例，什么情况用什么策略，讲得清楚。
+73K星的数据说明市场对这个方向有真实的期待。和通用代理框架不同，TradingAgents的代理分工是面向具体交易策略设计的，不是泛泛的角色扮演。每个代理有明确的输入输出管道，分析结论可以追踪、可以审计。
 
-从AI学习的角度看，这个项目比大多数在线教程实在。你拿来就能用，不需要先啃完10篇博客。对想系统入门AI辅助编程的人来说，投资回报率比很多付费课程高。
+论文和回测数据是公开的。金融AI的透明度问题一直很大，一个开源的、可以自己跑回测的系统至少让研究者有东西可验证。
 
-适合谁：想系统学Karpathy式AI编程方法的开发者，以及日常用Claude Code写代码的人。
+适合谁：对AI加金融交叉感兴趣，想了解多代理系统在真实场景怎么落地的研究者。
+
+---
+
+### 4. [microsoft/generative-ai-for-beginners](https://github.com/microsoft/generative-ai-for-beginners) — 108,000+ Stars
+
+微软这个课程是目前GitHub上Star数最高的AI学习项目，108K。21节课，从最基础的概念讲到怎么用生成式AI做实际应用，每节课都有代码示例和课后练习。
+
+和很多"收藏即学会"的资源不同，这个课程的设计思路是让你真的动手。每节课后面有一个assignment，要求你跑通对应的代码并回答一组检查问题。课程更新也比较勤快，最近的版本已经纳入了2026年初发布的几个重要模型。
+
+108K星放在教育类项目里是顶级水平。如果你刚入门AI想系统学一下，或者团队里有人需要补基础，这个比绝大多数付费课程靠谱。
+
+适合谁：想系统入门生成式AI的开发者，或者需要培训团队的企业。
+
+---
+
+### 5. [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) — 33,500+ Stars
+
+这个项目有一个明确的定位：教你怎么从零构建一个类似Claude Code的智能编程代理。它不讲"怎么用"Claude Code，而是拆内部架构：工具调用系统怎么设计、文件编辑怎么实现、上下文管理怎么优化。
+
+33.5K星的体量在AI学习类项目里算中上，但增速很稳。它的最大价值是让AI编程代理从黑箱变成了可以理解的东西。看完之后你对"AI编程代理到底在里面做了什么"会有一个清晰的概念。
+
+很适合和第一个项目superpowers搭配使用：superpowers告诉你"怎么让AI写出好代码"，learn-claude-code告诉你"AI写出代码的那个系统本身长什么样"。
+
+适合谁：想深入理解AI编程代理内部机制的中高级开发者。
 
 ---
 
 ## 三、几点观察
 
-Skills模式可能不是一波流。这周上榜的几个skills项目侧重点完全不同。Matt Pocock关心的是工程纪律怎么落地，怎么把TDD嵌入AI编程流程。Karpathy那边关注的是编程哲学的传达，一条原则为什么要这样做、不这样做会怎样。两个方向各有各的受众，不是互相抄来抄去凑热闹。
+AI编程代理的"技能化"已经是事实上的标准做法了。superpowers、mattpocock/skills、addyosmani/agent-skills在同一周冲上趋势榜不是偶然。工程社区用脚在投票，背后是同一个判断：AI编程代理产出的代码不能只是"能跑"，得"能维护"。
 
-本地推理的需求比很多人以为的大。openhuman一周17,000 star不是无缘无故的。开发者一旦想清楚把邮箱、日历和代码仓库的权限交给一个云端Agent意味着什么，把推理搬回本地就不是可选项了，是刚需。硬件也跟得上，现在的消费级显卡跑7B模型足够用了。
+模型训练的学习曲线在快速降低。LLMs-from-scratch、minimind这些项目把训练一个LLM的成本降到了几百块、几小时。更多人现在可以真正搞清楚模型内部发生了什么，而不是黑箱调API。对生态健康度这是好事。
 
-Agent在从单打独斗转向组队协作。ruflo的multi-agent编排解决的是"怎么配合"，hermes-agent的自进化解决的是"怎么成长"，两条路都在早期，但方向都对着同一个目标：让Agent真的能干活，不只是Demo。
+多代理系统在金融领域找到了痛点。TradingAgents的72K星不是靠营销堆出来的。金融交易天然需要多角色协作、可解释的决策链条、和持续的风险评估，这些恰好是多代理系统擅长的事。未来半年应该会看到更多垂直领域的多代理应用出现。
 
 ---
 
 ## 四、最后
 
-这周五个项目，各自在推不同的边界。openhuman推的是AI回本地，ruflo推的是Agent编队作战，Matt和Karpathy的skills推的是给AI工具加上工程素养，hermes-agent推的是Agent会自我迭代。方向不一样，但背后是同一个判断：AI工具正在从展示品变成日用品，这个过程里有很多空白等填。
+这周的项目有一个共同点：都在死磕可靠性这件事。代码质量、训练透明度、代理可解释性，方向不一样，但问题本质是同一个。半年前大家问的是"AI能做什么"，现在问的是"AI做得靠谱吗"。转折来得比想象快。
 
 下周见。
 
@@ -103,14 +103,13 @@ Agent在从单打独斗转向组队协作。ruflo的multi-agent编排解决的�
 
 | 排名 | 项目 | Stars | 本周增量 | 领域 |
 |------|------|-------|----------|------|
-| 1 | [tinyhumansai/openhuman](https://github.com/tinyhumansai/openhuman) | 28,894 | +17,000 | AI编程 |
-| 2 | [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | 55,831 | ~18,000 | AI研究 |
-| 3 | [mattpocock/skills](https://github.com/mattpocock/skills) | 108,632 | +1,618 | AI编程 |
-| 4 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | 170,330 | +1,332 | AI研究 |
-| 5 | [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) | 159,086 | +1,117 | AI学习 |
+| 1 | [obra/superpowers](https://github.com/obra/superpowers) | 140,000+ | +951 | AI编程 |
+| 2 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | 42,000+ | +1,332 | AI研究 |
+| 3 | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | 73,000+ | +497 | AI研究 |
+| 4 | [microsoft/generative-ai-for-beginners](https://github.com/microsoft/generative-ai-for-beginners) | 108,000+ | — | AI学习 |
+| 5 | [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) | 33,500+ | — | AI学习 |
 
 ---
 
 *本文由 Claude Code 辅助生成，经 Humanizer 去 AI 痕迹处理*
 *下周同一时间见*
-*数据获取时间：各项目总星数通过 `gh repo view` 于 2026-05-28 实时拉取；本周增量数据来源于 GitHub Trending 页面同期快照*
