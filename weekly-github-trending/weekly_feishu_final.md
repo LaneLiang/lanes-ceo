@@ -1,5 +1,5 @@
 用户：LaneLiang
-生成时间：2026年5月31日 星期日
+生成时间：2026年6月2日 星期一
 
 ---
 
@@ -11,89 +11,89 @@
 
 ## 一、这周GitHub上在发生什么
 
-这周Top 20第一名拿了8393颗星。单周八千多星什么概念？很多正经的开源项目，一辈子也就这个数。Matt Pocock把自己的Claude Code配置开源出来，一周的星数超过了过去半年的任何一个项目。
+这周有个数字让我愣了一下：一个项目单日涨了7540颗星。不是大模型，不是新框架，是一个自托管的AI workspace。
 
-Skills生态这周彻底炸了。Matt的、obra的、Addy Osmani的、Anthropic官方的，四个skills仓库同周上榜，合计单周增量超过一万七千星。程序员在用实际行动投票：与其写prompt调教AI，不如给AI一套工程规则让它自己遵守。
+榜单上的方向也很集中。Agent基础设施占了快一半的增量，Skills生态继续分裂繁殖，本地推理悄悄回来了。上周还在聊token效率，这周直接升级成了"把AI从云端拽回本地"。
 
-还有一个新信号：token效率开始变成硬指标。caveman这个项目用穴居人语法写prompt，砍了65%的token，一周拿了两千多星。开发者对API账单的敏感度在快速上升，不是不想用AI，是觉得太贵了。
+还有一个现象：MCP Server成了独立开发者的新产品形态。把某一项能力（记忆、代码搜索、安全扫描）封成一个MCP Server放上去，就是一门生意。
 
 ---
 
 ## 二、5个值得关注的项目
 
-### 1. [mattpocock/skills](https://github.com/mattpocock/skills) — 108,000+ Stars
+### 1. [affaan-m/ECC](https://github.com/affaan-m/ECC) — 200,000+ Stars
 
-这周的大赢家，单周8393星。Matt Pocock是TypeScript社区最活跃的那批人之一，他把日常用Claude Code时积累的一套工程规则开源了出来。不是什么"AI最佳实践"的大词，全是实际干活时的细节：什么时候写测试、怎么设边界不让AI瞎改代码、怎么把多个检查步骤串成链。
+全称Everything Claude Code，200万？不，20万星。但20万星已经够离谱了，毕竟它的本质是Claude Code的配置层。
 
-和obra/superpowers那种"软件工程方法论"的路子不同，Matt这套更接地气。他就是把自己`.claude/skills/`目录扔了上来，每条规则对应一个具体的工程场景。TDD那条告诉你"AI改代码前先跑一遍现有测试"，不是"建议保持代码质量"这种废话。
+ECC做的事情一句话：给Claude Code装了个操作系统。60多个agent（架构师、代码审查、安全专家、构建修复），240多个skill文件，79个斜杠命令。你用/claude命令干活，它在你背后自动调度合适的agent、加载对应的skill、跑安全检查。
 
-8393星这个数字本身说明问题。上一个单周破八千的项目是什么？记不住了。
+v2.0的rc版本这周出了，核心变化是从"规则集合"升级成了"工作流引擎"。hermes operator把多个agent串成流水线，一个任务自动在架构师、开发者、审查者、安全扫描之间流转。这让它从"增强工具"变成了"开发流程"。
 
-适合谁：日常用Claude Code写TypeScript（或其他语言）的开发者，想让AI产出的代码少点惊喜。
-
----
-
-### 2. [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) — 136,000+ Stars
-
-这周6298星，总星数136K。上周它还在1332星的节奏，这周直接翻了将近五倍。不是因为发了什么大版本，是社区突然发现终身学习这件事在Agent上不是噱头，是真的能用。
-
-hermes-agent的核心设计不复杂：三层记忆（短期会话、中期任务经验、长期知识累积）加上一个自改进循环。Agent干完活之后自动复盘，下次碰到类似的活效率更高。听起来像是强化学习的老思路，但工程化上了生产环境还跑得通，就是另一回事了。
-
-总星数136K说明它不是这一周才火的。但6298星的周增速说明它正在从一个研究项目变成一个开发者工具。这个转折点，很多项目一辈子等不到。
-
-适合谁：在做Agent系统，或者想让自动化脚本越跑越聪明的开发者。
+适合谁：已经把Claude Code当主力开发工具，想让AI产出更靠谱的开发者。
 
 ---
 
-### 3. [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) — 2,372+ Stars (本周)
+### 2. [Lum1104/Understand-Anything](https://github.com/Lum1104/Understand-Anything) — 47,000+ Stars
 
-caveman的思路简单到让人生气：用穴居人语法写prompt。"Fix bug login page"代替"Could you please take a look at the login page and help me identify and fix the bug"。砍掉65%的token，API账单直接打三五折。
+47K星，每天还在以600+的速度涨。Understand-Anything做的事很简单：把代码库变成一张可以交互的知识图谱。
 
-技术上讲它不复杂，本质上就是一个Claude Code skill文件。但它碰到了一个真实的痛点：用AI写代码确实爽，月底的账单看着肉疼。很多人在找各种降本的办法，caveman告诉你，最有效的降本是少说话。
+它调6个agent干活。先扫文件结构，再提取函数和类的依赖关系，自动分组出API层、数据层、UI层，最后生成一张图。你可以在图上点来点去，也可以用自然语言问它"认证逻辑在哪些文件里"。日文字体、韩文注释它也能处理，不挑语言。
 
-项目还在早期，只有两个skill文件。但2372颗星只是这周的数据，如果后续caveman模式扩展到更多语言和框架，这个方向值得一直盯着。
+和上周聊过的graphify相比，Understand-Anything更重"交互"。它不是给你一张静态图，而是一个可以探索的仪表盘。新人入职看一遍，比读三天代码管用。
 
-适合谁：频繁用Claude Code、对API账单有感觉的开发者。
-
----
-
-### 4. [safishamsi/graphify](https://github.com/safishamsi/graphify) — 2,268+ Stars (本周)
-
-graphify做的事情是：把一个代码文件夹扔进去，吐出来一个可查询的知识图谱。每个函数、每个类、每个模块变成一个节点，依赖关系变成边。然后你可以用自然语言问它："认证逻辑在哪几个文件里？"它从图谱里给你答案，不用你自己grep半天。
-
-2268星排这周Python榜第五。它解决了一个老问题：大型代码库太难啃了。给AI喂代码时也一样，你不需要把整个仓库上下文都塞进去，先用graphify定位到相关的几个文件，精准投喂。
-
-从学习的角度看，graphify的价值尤其大。新手面对一个陌生代码库，最难的永远不是语法，是"这堆文件到底什么关系"。图形化之后，理解速度快一个量级。
-
-适合谁：经常读陌生代码库的开发者，AI编程时需要精准定位上下文的用户，以及想快速上手开源项目的学习者。
+适合谁：面对陌生代码库就想跑的新人，或者需要给团队做onboarding的技术负责人。
 
 ---
 
-### 5. [karpathy/autoresearch](https://github.com/karpathy/autoresearch) — 71,000+ Stars
+### 3. [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — 30,000+ Stars
 
-Karpathy离开OpenAI之后做的autoresearch，七万多星，核心想法很Karpathy：晚上你睡觉，AI自己跑实验、训练小模型、写研究报告。第二天早上起来，邮箱里躺着一份完整的实验报告。
+你有没有发现，AI生成的前端界面都长一个样？白底、蓝按钮、Inter字体、居中布局。taste-skill干的就一件事：治这个毛病。
 
-技术上它把一个完整的AI研究周期自动化了：选题、写代码、跑实验、分析结果、写报告。每个环节有独立的agent负责，由调度器串起来。默认用一块GPU，训的是几百万参数的小模型。
+它用三个旋钮控制AI的设计风格。DESIGN_VARIANCE管布局的激进程度，MOTION_INTENSITY管动画量，VISUAL_DENSITY管信息密度。每个旋钮1到10分，你调参数，AI按你的口味出设计。想做出Apple那种留白呼吸感，把密度拉低；想做个信息密集的dashboard，把密度拉高。
 
-对AI学习来说，这个项目的价值不在它跑出来的结果有多好，而在它展示了一套完整的研究方法论。你把它放在那跑一周，观察它的选题逻辑和实验设计，比读十篇best practice博客收益大。当然，它偶尔也会跑出完全没意义的结果，Karpathy自己在README里说了，别太当真。
+30K星对一个设计类项目来说已经很夸张了。它说明了一件事：开发者真的受够了AI出品的"统一脸"。
 
-适合谁：对AI研究流程感兴趣的学习者，或者想理解"自主研究Agent"到底能做到什么程度的人。
+适合谁：用AI写前端但经常被AI产出丑哭的开发者。
+
+---
+
+### 4. [rohitg00/ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch) — 26,000+ Stars
+
+26K星，每天还在涨350+。这是一套系统性的AI工程课程，473课，20个阶段，从线性代数讲到多智能体生产部署。
+
+和其他AI教程最大的区别：它要求你从零写代码。不是"import transformers然后调API"，是从数学推导开始，一行行实现。数学基础、传统ML、深度学习、Transformer、LLM、RAG、Agent、MCP、多智能体、安全评测，全链路覆盖。
+
+作者Rohit Ghumare的态度很明确：AI不是黑盒。你要真懂了，才能在生产环境里修bug。已有中文翻译版在fancyboi999那里，国内学习者可以直接看。
+
+适合谁：不想只当API调用工程师，想真正理解AI全栈的学习者。
+
+---
+
+### 5. [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph) — 35,000+ Stars
+
+CodeGraph解决的痛点很具体：Claude Code在动手写代码之前，要花大量token去"看懂"你的项目。grep、glob、Read来回跑，52次工具调用才能定位到要改的文件。
+
+CodeGraph把这件事前置了。它用tree-sitter预先解析整个代码库，建立一个本地SQLite知识图谱。AI agent不再grep，直接查图。实测下来：省59%的token，少70%的工具调用，快49%。对于大项目（比如VS Code那10万文件），工具调用从23次降到7次。
+
+和Understand-Anything的区别：Understand-Anything是给人看的交互式图谱，CodeGraph是给AI agent用的预索引。两个项目互补，但解决的是同一件事：AI编程里"理解代码"这一步太慢了。
+
+适合谁：用AI agent处理大型代码库、对API账单敏感的开发者。
 
 ---
 
 ## 三、几点观察
 
-Token效率成了硬通货。caveman不是孤例，这周还有几个项目的README里开始标注"reduce token usage by X%"。当API调用的成本足够大时，省token比加feature更重要。这和前端开发里的bundle size optimization一样，迟早会变成每个AI项目的标配思维。
+Agent从"帮手"变成了"产线"。ECC v2.0的工作流引擎不是孤例。CodeGraph的预索引、taste-skill的设计规则，本质上都在做同一件事：把AI编程从"对话-写代码-检查"的松散交互，变成有上下游、有质量关卡的工程流水线。
 
-Skills生态在有丝分裂。Matt、obra、Addy Osmani、Anthropic，四方各自在做类似的事但侧重点完全不同。Matt偏实际工程场景，obra偏软件方法论，Addy偏Google风格的生产级约束，Anthropic偏平台标准。短期内不会一家独大，生态会先乱一阵然后自然收敛。
+Skills生态开始分化出"品味层"。上周聊了Matt、obra、Anthropic的skills，这周taste-skill和stop-slop补上了"质量控制"这一环。不只要教AI怎么干活，还要教它怎么干得好看、干得不油腻。
 
-自主Agent离"靠谱"还有距离，但"有趣"已经够了。hermes-agent的自进化、autoresearch的夜间实验，本质上都在试探同一个边界：AI在没有人类干预的情况下，能干多深的事。答案目前是"看情况"，但方向是对的。
+本地化不是口号是趋势。ECC全本地运行、CodeGraph纯SQLite零外部依赖、odysseus自托管workspace单日7500星。当API账单涨到一定阈值，"把AI搬回家"就从理想主义变成了成本决策。
 
 ---
 
 ## 四、最后
 
-五个项目，五条不同的路。Matt和caveman在帮开发者省钱，hermes-agent在让Agent自己长记性，graphify在帮人读懂代码，autoresearch在让AI替你熬夜跑实验。没有哪个是银弹，但每个都在解决一个具体的问题。这就够了。
+五个项目，五个方向。ECC给Agent装操作系统，taste-skill给它装审美，codegraph给它装导航，Understand-Anything帮人读懂代码，ai-engineering-from-scratch帮人学会造这些。没有哪个是银弹，但每个都在解决一个具体的问题。
 
 下周见。
 
@@ -103,11 +103,11 @@ Skills生态在有丝分裂。Matt、obra、Addy Osmani、Anthropic，四方各�
 
 | 排名 | 项目 | Stars | 本周增量 | 领域 |
 |------|------|-------|----------|------|
-| 1 | [mattpocock/skills](https://github.com/mattpocock/skills) | 108,000+ | +8,393 | AI编程 |
-| 2 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | 136,000+ | +6,298 | AI研究 |
-| 3 | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) | — | +2,372 | AI编程 |
-| 4 | [safishamsi/graphify](https://github.com/safishamsi/graphify) | — | +2,268 | AI学习 |
-| 5 | [karpathy/autoresearch](https://github.com/karpathy/autoresearch) | 71,000+ | — | AI学习 |
+| 1 | [affaan-m/ECC](https://github.com/affaan-m/ECC) | 200,000+ | +10,500+ | AI编程 |
+| 2 | [Lum1104/Understand-Anything](https://github.com/Lum1104/Understand-Anything) | 47,000+ | +4,200+ | AI学习 |
+| 3 | [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph) | 35,000+ | +1,800+ | AI编程 |
+| 4 | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | 30,000+ | +2,000+ | AI编程 |
+| 5 | [rohitg00/ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch) | 26,000+ | +2,400+ | AI学习 |
 
 ---
 
