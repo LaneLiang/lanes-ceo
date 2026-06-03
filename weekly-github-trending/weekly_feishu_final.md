@@ -1,5 +1,5 @@
 用户：LaneLiang
-生成时间：2026年6月2日 星期一
+生成时间：2026年6月3日 星期三
 
 ---
 
@@ -11,89 +11,89 @@
 
 ## 一、这周GitHub上在发生什么
 
-这周有个数字让我愣了一下：一个项目单日涨了7540颗星。不是大模型，不是新框架，是一个自托管的AI workspace。
+这周榜单上有个明显的信号：Agent的竞争已经从"谁更聪明"变成了"谁能记住事"。
 
-榜单上的方向也很集中。Agent基础设施占了快一半的增量，Skills生态继续分裂繁殖，本地推理悄悄回来了。上周还在聊token效率，这周直接升级成了"把AI从云端拽回本地"。
+claude-mem一周涨了三千多星，总星数逼近八万。context-mode把上下文压缩了98%，一万六千星。OpenAI和上交大各放了一个重磅开源。和前几周Skills生态的炸裂不同，这周更像是"基建周"。
 
-还有一个现象：MCP Server成了独立开发者的新产品形态。把某一项能力（记忆、代码搜索、安全扫描）封成一个MCP Server放上去，就是一门生意。
+另一个有意思的事：Multica四个人的团队，做了一个开源托管平台，一个多月从零涨到两万三千星。没有大厂背书，没有论文加持，就是戳中了痛点：AI agent写完代码之后呢？谁来管它？任务怎么分配？进度怎么跟踪？
 
 ---
 
 ## 二、5个值得关注的项目
 
-### 1. [affaan-m/ECC](https://github.com/affaan-m/ECC) — 200,000+ Stars
+### 1. [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) — 77,000+ Stars
 
-全称Everything Claude Code，200万？不，20万星。但20万星已经够离谱了，毕竟它的本质是Claude Code的配置层。
+用过Claude Code的都经历过：开了新会话，AI完全忘了你上次教它的东西。claude-mem就是治这个的。
 
-ECC做的事情一句话：给Claude Code装了个操作系统。60多个agent（架构师、代码审查、安全专家、构建修复），240多个skill文件，79个斜杠命令。你用/claude命令干活，它在你背后自动调度合适的agent、加载对应的skill、跑安全检查。
+它在你干活的时候悄悄记录一切。每个工具调用、每个决策、每段对话，存进本地SQLite。一轮会话结束后，把几千token的上下文压成两百token的"记忆碎片"。下次开新会话，自动把相关的记忆塞回去。
 
-v2.0的rc版本这周出了，核心变化是从"规则集合"升级成了"工作流引擎"。hermes operator把多个agent串成流水线，一个任务自动在架构师、开发者、审查者、安全扫描之间流转。这让它从"增强工具"变成了"开发流程"。
+12个大版本迭代下来，架构已经很成熟了。四层记忆：索引层快速定位、时间线层给上下文、全量层存细节、向量层做语义搜索。安装就一行：`npx claude-mem install`。
 
-适合谁：已经把Claude Code当主力开发工具，想让AI产出更靠谱的开发者。
-
----
-
-### 2. [Lum1104/Understand-Anything](https://github.com/Lum1104/Understand-Anything) — 47,000+ Stars
-
-47K星，每天还在以600+的速度涨。Understand-Anything做的事很简单：把代码库变成一张可以交互的知识图谱。
-
-它调6个agent干活。先扫文件结构，再提取函数和类的依赖关系，自动分组出API层、数据层、UI层，最后生成一张图。你可以在图上点来点去，也可以用自然语言问它"认证逻辑在哪些文件里"。日文字体、韩文注释它也能处理，不挑语言。
-
-和上周聊过的graphify相比，Understand-Anything更重"交互"。它不是给你一张静态图，而是一个可以探索的仪表盘。新人入职看一遍，比读三天代码管用。
-
-适合谁：面对陌生代码库就想跑的新人，或者需要给团队做onboarding的技术负责人。
+适合谁：频繁在Claude Code里切会话、每次都要重新解释项目背景的开发者。
 
 ---
 
-### 3. [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — 30,000+ Stars
+### 2. [Lordog/dive-into-llms](https://github.com/Lordog/dive-into-llms) — 39,000+ Stars
 
-你有没有发现，AI生成的前端界面都长一个样？白底、蓝按钮、Inter字体、居中布局。taste-skill干的就一件事：治这个毛病。
+《动手学大模型》，上海交大张倬胜教授团队出品，39K星，中文大模型教程里星数最高的一个。
 
-它用三个旋钮控制AI的设计风格。DESIGN_VARIANCE管布局的激进程度，MOTION_INTENSITY管动画量，VISUAL_DENSITY管信息密度。每个旋钮1到10分，你调参数，AI按你的口味出设计。想做出Apple那种留白呼吸感，把密度拉低；想做个信息密集的dashboard，把密度拉高。
+11章，从微调部署讲到RLHF安全对齐。每章不是PPT加注释，是完整的Jupyter Notebook，clone下来就能跑。LoRA微调、思维链推理、模型水印、越狱攻击防御、GUI Agent，覆盖了从入门到安全的完整链路。
 
-30K星对一个设计类项目来说已经很夸张了。它说明了一件事：开发者真的受够了AI出品的"统一脸"。
+有两个章节特别值得看。第九章教你怎么让AI操作电脑界面（Computer Use），第十章讲Agent场景下的安全风险和防御。这两块内容在国内公开教程里很少见，刚好是当下Agent生态最需要的东西。
 
-适合谁：用AI写前端但经常被AI产出丑哭的开发者。
-
----
-
-### 4. [rohitg00/ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch) — 26,000+ Stars
-
-26K星，每天还在涨350+。这是一套系统性的AI工程课程，473课，20个阶段，从线性代数讲到多智能体生产部署。
-
-和其他AI教程最大的区别：它要求你从零写代码。不是"import transformers然后调API"，是从数学推导开始，一行行实现。数学基础、传统ML、深度学习、Transformer、LLM、RAG、Agent、MCP、多智能体、安全评测，全链路覆盖。
-
-作者Rohit Ghumare的态度很明确：AI不是黑盒。你要真懂了，才能在生产环境里修bug。已有中文翻译版在fancyboi999那里，国内学习者可以直接看。
-
-适合谁：不想只当API调用工程师，想真正理解AI全栈的学习者。
+适合谁：想系统学大模型的学生和转行工程师，以及需要培训教材的企业。
 
 ---
 
-### 5. [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph) — 35,000+ Stars
+### 3. [multica-ai/multica](https://github.com/multica-ai/multica) — 23,000+ Stars
 
-CodeGraph解决的痛点很具体：Claude Code在动手写代码之前，要花大量token去"看懂"你的项目。grep、glob、Read来回跑，52次工具调用才能定位到要改的文件。
+Multica做的事一句话：把AI agent从"命令行工具"升级成"项目成员"。
 
-CodeGraph把这件事前置了。它用tree-sitter预先解析整个代码库，建立一个本地SQLite知识图谱。AI agent不再grep，直接查图。实测下来：省59%的token，少70%的工具调用，快49%。对于大项目（比如VS Code那10万文件），工具调用从23次降到7次。
+每个agent有自己的profile，出现在看板上，可以被评论，可以报告阻塞。支持11种agent（Claude Code、Codex、Copilot、OpenClaw、Gemini等），厂商中立。你可以组Squad，把多个agent加一个人类编成小队，leader agent自动分发任务。
 
-和Understand-Anything的区别：Understand-Anything是给人看的交互式图谱，CodeGraph是给AI agent用的预索引。两个项目互补，但解决的是同一件事：AI编程里"理解代码"这一步太慢了。
+创始人Jiayuan是前TikTok工程师，四月初Anthropic发布Claude Managed Agents那天把Multica开源了。一个多月74个release，v0.3.6刚出。商业化路径很诚实：协作平台免费，云端runtime收费，开源版永远Apache 2.0。
 
-适合谁：用AI agent处理大型代码库、对API账单敏感的开发者。
+适合谁：团队里已经在用AI agent干活，但缺少统一管理和任务分配机制的技术负责人。
+
+---
+
+### 4. [openai/openai-agents-python](https://github.com/openai/openai-agents-python) — 27,000+ Stars
+
+OpenAI官方出的多Agent框架，27K星。对比LangChain那种"瑞士军刀"路线，OpenAI这个走的是极简风。
+
+10行Python跑起来一个agent。九个核心组件：Agents、沙箱Agent、Handoffs、工具、护栏、人类审批、会话管理、链路追踪、实时语音Agent。支持100+模型，不锁OpenAI一家。MIT协议，免费内建tracing，不用另外买LangSmith。
+
+最实用的是沙箱Agent。容器隔离，可以clone仓库、跑命令、打patch，干完活自动销毁。安全性和可复现性都有保障。v0.17.3上周发布，迭代节奏很快。
+
+适合谁：在选多Agent框架的开发者，以及对LangChain复杂度有怨念的团队。
+
+---
+
+### 5. [mksglu/context-mode](https://github.com/mksglu/context-mode) — 16,000+ Stars
+
+context-mode解决的是Agent最烧钱的环节：上下文窗口。
+
+它的做法是把Agent的工具输出放进沙箱处理。原始输出可能有315KB，处理完剩5.4KB，压缩率98%。实测数据：47次Read调用变成1次ctx_execute，700KB上下文压到3.6KB。支持15个平台，Claude Code、Codex、Cursor、Copilot全覆盖。
+
+项目只有三个多月大，已经发了140多个版本，98个贡献者。这个速度说明了一件事：Agent上下文燃烧的速度，比大多数人以为的更快。
+
+适合谁：API账单高得肉疼的Agent重度用户。
 
 ---
 
 ## 三、几点观察
 
-Agent从"帮手"变成了"产线"。ECC v2.0的工作流引擎不是孤例。CodeGraph的预索引、taste-skill的设计规则，本质上都在做同一件事：把AI编程从"对话-写代码-检查"的松散交互，变成有上下游、有质量关卡的工程流水线。
+Agent在长出"长期记忆"。claude-mem的四层记忆架构、context-mode的SQLite+FTS5，本质上都在让Agent从"金鱼脑"变成有历史感的工具。这是Agent从demo走向生产的关键一跳。
 
-Skills生态开始分化出"品味层"。上周聊了Matt、obra、Anthropic的skills，这周taste-skill和stop-slop补上了"质量控制"这一环。不只要教AI怎么干活，还要教它怎么干得好看、干得不油腻。
+Agent需要管理层。Multica的爆发不是因为它技术多新，是因为"写完代码之后怎么办"这个问题没人好好解决过。任务分配、进度跟踪、阻塞上报、技能沉淀，这些项目管理的基本功，Agent也一样需要。
 
-本地化不是口号是趋势。ECC全本地运行、CodeGraph纯SQLite零外部依赖、odysseus自托管workspace单日7500星。当API账单涨到一定阈值，"把AI搬回家"就从理想主义变成了成本决策。
+中国团队开始定义学习标准。dive-into-llms的39K星放在全球来看都是头部教程。上交大团队把越狱攻击、模型水印、隐写术这些安全前沿放进基础教程，不只是教"怎么用"，更教"怎么防"。
 
 ---
 
 ## 四、最后
 
-五个项目，五个方向。ECC给Agent装操作系统，taste-skill给它装审美，codegraph给它装导航，Understand-Anything帮人读懂代码，ai-engineering-from-scratch帮人学会造这些。没有哪个是银弹，但每个都在解决一个具体的问题。
+这周五个项目，claude-mem在给Agent装记忆，dive-into-llms在教人理解大模型，multica在给Agent当项目经理，openai-agents-python在给开发者递官方工具，context-mode在帮所有人省钱。路子各不相同，但都在填Agent从玩具到工具的坑。
 
 下周见。
 
@@ -103,11 +103,11 @@ Skills生态开始分化出"品味层"。上周聊了Matt、obra、Anthropic的s
 
 | 排名 | 项目 | Stars | 本周增量 | 领域 |
 |------|------|-------|----------|------|
-| 1 | [affaan-m/ECC](https://github.com/affaan-m/ECC) | 200,000+ | +10,500+ | AI编程 |
-| 2 | [Lum1104/Understand-Anything](https://github.com/Lum1104/Understand-Anything) | 47,000+ | +4,200+ | AI学习 |
-| 3 | [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph) | 35,000+ | +1,800+ | AI编程 |
-| 4 | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | 30,000+ | +2,000+ | AI编程 |
-| 5 | [rohitg00/ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch) | 26,000+ | +2,400+ | AI学习 |
+| 1 | [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) | 77,000+ | +3,000+ | AI编程 |
+| 2 | [Lordog/dive-into-llms](https://github.com/Lordog/dive-into-llms) | 39,000+ | 稳定增长 | AI学习 |
+| 3 | [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | 27,000+ | +500+ | AI研究 |
+| 4 | [multica-ai/multica](https://github.com/multica-ai/multica) | 23,000+ | +2,000+ | AI编程 |
+| 5 | [mksglu/context-mode](https://github.com/mksglu/context-mode) | 16,000+ | +1,500+ | AI编程 |
 
 ---
 
